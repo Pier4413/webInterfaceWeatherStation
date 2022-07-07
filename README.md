@@ -1,14 +1,10 @@
 # web_interface
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is part of a connected weather station.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+See also :
+ - [Embedded (Python)](https://github.com/Pier4413/embeddedPythonWeatherStation.git)
+ - [Data Server (Node.js/Mongo.db)](https://github.com/Pier4413/dataServerWeatherStation)
 
 ## Project Setup
 
@@ -35,3 +31,5 @@ You need to create a file with the minimal in it :
 VITE_API_KEY=<Your api key to data server>
 VITE_SERVER_URL=http://<hostname of data server>:<port of data server>
 ```
+
+As those are environment variables they can be provided by any other means that are available for environment variables on your system
