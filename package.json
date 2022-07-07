@@ -2,7 +2,7 @@
   "name": "web_interface",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite --port 8080",
+    "dev": "vite --port 8080 --host",
     "build": "vite build",
     "preview": "vite preview --port 4173"
   },
