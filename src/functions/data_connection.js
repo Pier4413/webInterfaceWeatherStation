@@ -12,7 +12,6 @@ function createConnection() {
 
 function getRequest(path, queryParams) {
   var fullUri = import.meta.env.VITE_SERVER_URL + "/" + path
-  console.log(fullUri)
 
   if (queryParams) {
     fullUri = fullUri + "?"
