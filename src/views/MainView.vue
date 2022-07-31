@@ -33,25 +33,40 @@ export default {
             this.weathers = data;
 
             // Create the data for the charts
-            let tempsChartData = createChart(this.weathers.map(d => d.temperature), this.$tc, "temperature", (t => t - 273.15), "current", "feels_like");
-            let pressureChartData = createChart(this.weathers.map(d => d.misc), this.$tc, "pressure", null, "pressure");
-            let humidityChartData = createChart(this.weathers.map(d => d.misc),  this.$tc,"humidity", null, "humidity");
-            let windSpeedChartData = createChart(this.weathers.map(d => d.wind), this.$tc, "speed", (v => v * 3.6), "speed");
-            let windDirectionChartData = createChart(this.weathers.map(d => d.wind), this.$tc, "direction", null, "direction");
+            // Temperature
+            if(import.meta.env.VITE_TEMPERATURE==1) {
+              let tempsChartData = createChart(this.weathers.map(d => d.temperature), this.$tc, "temperature", (t => t - 273.15), "current", "feels_like");
+              let latestTemp = filterLatest(this.weathers.map(d => d.temperature), "°C", (t => t - 273.15), "current", "feels_like");
+              this.$refs.tempsChild.printChart(tempsChartData, latestTemp);
+            }
 
-            // Filter to get the latest data in the weathers. Faster than a call to API /weather/latest
-            let latestTemp = filterLatest(this.weathers.map(d => d.temperature), "°C", (t => t - 273.15), "current", "feels_like");
-            let latestPressure = filterLatest(this.weathers.map(d => d.misc), "hPa", null, "pressure");
-            let latestHumidity = filterLatest(this.weathers.map(d => d.misc), "%", null, "humidity");
-            let latestWindSpeed = filterLatest(this.weathers.map(d => d.wind), "km/h", (v => v * 3.6), "speed");
-            let latestWindDirection = filterLatest(this.weathers.map(d => d.wind), "°", null, "direction");
+            // Pressure
+            if(import.meta.env.VITE_PRESSURE==1) {
+              let pressureChartData = createChart(this.weathers.map(d => d.misc), this.$tc, "pressure", null, "pressure");
+              let latestPressure = filterLatest(this.weathers.map(d => d.misc), "hPa", null, "pressure");
+              this.$refs.pressureChild.printChart(pressureChartData, latestPressure);
+            }
+            
+            // Humidity
+            if(import.meta.env.VITE_HUMIDITY==1) {
+              let humidityChartData = createChart(this.weathers.map(d => d.misc),  this.$tc,"humidity", null, "humidity");
+              let latestHumidity = filterLatest(this.weathers.map(d => d.misc), "%", null, "humidity");
+              this.$refs.humidityChild.printChart(humidityChartData, latestHumidity);
+            }
 
-            // Tell all data component to update
-            this.$refs.tempsChild.printChart(tempsChartData, latestTemp);
-            this.$refs.pressureChild.printChart(pressureChartData, latestPressure);
-            this.$refs.humidityChild.printChart(humidityChartData, latestHumidity);
-            this.$refs.windSpeedChild.printChart(windSpeedChartData, latestWindSpeed);
-            this.$refs.windDirectionChild.printChart(windDirectionChartData, latestWindDirection);
+            // Wind Speed
+            if(import.meta.env.VITE_WIND_SPEED==1) {
+              let windSpeedChartData = createChart(this.weathers.map(d => d.wind), this.$tc, "speed", (v => v * 3.6), "speed");
+              let latestWindSpeed = filterLatest(this.weathers.map(d => d.wind), "km/h", (v => v * 3.6), "speed");
+              this.$refs.windSpeedChild.printChart(windSpeedChartData, latestWindSpeed);
+            }
+            
+            // Wind direction
+            if(import.meta.env.VITE_WIND_DIRECTION==1) {
+              let windDirectionChartData = createChart(this.weathers.map(d => d.wind), this.$tc, "direction", null, "direction");
+              let latestWindDirection = filterLatest(this.weathers.map(d => d.wind), "°", null, "direction");
+              this.$refs.windDirectionChild.printChart(windDirectionChartData, latestWindDirection);
+            }
           }
           catch(e) {
             console.error(e);
