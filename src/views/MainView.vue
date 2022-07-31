@@ -1,4 +1,7 @@
 <template>
+  <select v-model="selected" size="sm" class="mt-3">
+    <option v-for="period in periods" :value="period.value">{{period.text}}</option>
+  </select>
   <data-printer ref="tempsChild" chart-id="temps-chart"/>
   <data-printer ref="pressureChild" chart-id="pressure-chart"/>
   <data-printer ref="humidityChild" chart-id="humidity-chart"/>
@@ -15,7 +18,28 @@ export default {
   data() {
     return {
       weathers: [],
-      error: null
+      error: null,
+      periods: [{
+        text: "1 an",
+        value: 24*60*60*365
+      },
+      {
+        text: "1 mois",
+        value: 24*60*60*30
+      },
+      {
+        text: "1 semaine",
+        value: 24*60*60*7
+      },
+      {
+        text: "1 jour",
+        value: 24*60*60
+      },
+      {
+        text: "1 heure",
+        value: 60*60
+      }],
+      selected: 24*60*60*365
     };
   },
   components: {
@@ -24,9 +48,14 @@ export default {
   mounted() {
     this.requestHistory();
   },
+  watch: {
+    selected: function(val) {
+      this.requestHistory()
+    }
+  },
   methods: {
     requestHistory: function () {
-      getRequest('weather/last_hour', null)
+      getRequest('weather', "duration="+this.selected)
         .then(data => {
 
           try {

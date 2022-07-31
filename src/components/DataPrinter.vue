@@ -23,7 +23,8 @@
     data() {
       return {
         latestValues: [],
-        chartData: null
+        chartData: null,
+        chart: null
       }
     },
     props: ['chartId'],
@@ -33,7 +34,10 @@
         this.latestValues = latestValues;
 
         let ctx = document.getElementById(this.chartId);
-        new Chart(ctx, this.chartData);
+        if(this.chart !== null) {
+          this.chart.destroy();
+        }
+        this.chart = new Chart(ctx, this.chartData);
       }
     }
   }
